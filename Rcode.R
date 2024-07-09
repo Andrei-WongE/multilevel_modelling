@@ -114,7 +114,8 @@ model1B <- lmer(HbA1c ~ sex + race + education + income + age + (1|stratum), dat
 
 
 library(doParallel)
-registerDoParallel(cores=4)
+detectCores()
+registerDoParallel(cores=15)
 m1Bm <- predictInterval(model1B, level=0.95, include.resid.var=FALSE)
 
 
@@ -139,7 +140,7 @@ stratum_level <- aggregate(x=tut2[c("HbA1c")],
 #Produce table
 tab_model(model1A, model1B, p.style="stars")
 
-#Graph stratums
+#Graph stratum
 stratum_level <- stratum_level %>%
   mutate(rank=rank(m1Bmfit))
 
